@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 
 namespace Components
@@ -26,21 +27,12 @@ namespace Components
             var worldPositions = new List<Vector3>();
             foreach (var screenPosition in screenPositions)
             {
-                var worldPosition = GetWorldPosition(screenPosition);
+                var worldPosition = ScreenManager.Instance.GetWorldPosition(screenPosition);
                 worldPositions.Add(worldPosition);
             }
 
             _lineRenderer.positionCount = worldPositions.Count;
             _lineRenderer.SetPositions(worldPositions.ToArray());
-        }
-
-        public Vector3 GetWorldPosition(Vector3 screenPosition)
-        {
-            var position = new Vector3(screenPosition.x, screenPosition.y, _mainCamera.nearClipPlane);
-            var worldPosition = _mainCamera.ScreenToWorldPoint(position);
-            worldPosition.z = 0;
-
-            return worldPosition;
         }
     }
 }
