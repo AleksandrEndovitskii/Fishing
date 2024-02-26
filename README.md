@@ -1,6 +1,7 @@
 # Fishing
 
 Note: Please select one or more of the following tasks to demonstrate your expertise and skills. While we value a polished end product, the emphasis here is on your problem-solving approach, coding style, and understanding of the concepts. Each task should not take more than a couple of hours to complete. Once done, please provide a brief explanation of your approach, any assets used, and the final product.
+
 Task 1 - Basic Fishing Mechanic:
 Create a simple 2D fishing game scene in Unity where the player can cast a line into a pond.
 Include at least 3 fish that move randomly in the pond.
@@ -24,6 +25,7 @@ Building upon Task 2 or from scratch, add a mechanic where different fish have v
 Implement a simple RNG system that determines which fish bites the line, with rarer fish having a lower chance.
 Display a log that showcases the result of the last 10 fishing attempts (e.g., "Common Fish," "Rare Fish," "Missed").
 Proficiency: Understanding of Task 2, RNG principles, and the concept of game volatility.
+
 Note: For all tasks, applicants are free to use any available assets or tools. The focus is on functionality and understanding of the concepts rather than aesthetic polish. Once a task is chosen and completed, please submit the project files, any necessary documentation or instructions, and a brief write-up of your approach.
 
 https://docs.google.com/document/d/13AelQ-v-WIo6KiG_qlmaWNqPEb6w8BNKYDYKD3iXcww/edit
