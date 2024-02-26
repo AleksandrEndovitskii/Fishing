@@ -7,15 +7,13 @@ namespace Components
     [RequireComponent(typeof(LineRenderer))]
     public class LineDrawingComponent : MonoBehaviour
     {
-        private LineRenderer _lineRenderer;
+        public bool IsLineActive => _lineRenderer.positionCount > 0;
 
-        private Camera _mainCamera;
+        private LineRenderer _lineRenderer;
 
         private void Start()
         {
             _lineRenderer = GetComponent<LineRenderer>();
-
-            _mainCamera = Camera.main;
 
             _lineRenderer.startWidth = 0.1f;
             _lineRenderer.endWidth = 0.1f;
@@ -33,6 +31,10 @@ namespace Components
 
             _lineRenderer.positionCount = worldPositions.Count;
             _lineRenderer.SetPositions(worldPositions.ToArray());
+        }
+        public void EraseLine()
+        {
+            _lineRenderer.positionCount = 0;
         }
     }
 }

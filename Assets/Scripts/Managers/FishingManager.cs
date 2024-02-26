@@ -16,6 +16,7 @@ namespace Managers
         [SerializeField]
         private BaitView _baitPrefab;
         private BaitView _baitInstance;
+        public bool IsBaitActive => _baitInstance != null;
 
         [SerializeField]
         private FishView _fishPrefab;
@@ -53,15 +54,14 @@ namespace Managers
         {
             if (Input.GetMouseButtonDown(0))
             {
-                _lineDrawingComponent.DrawLine(_fishmanScreenPosition, Input.mousePosition);
-
-                if (_baitInstance != null)
+                if (IsBaitActive)
                 {
-                    Destroy(_baitInstance.gameObject);
-                    _baitInstance = null;
+                    DespawnBait();
                 }
-                var mouseWorldPosition = ScreenManager.Instance.GetWorldPosition(Input.mousePosition);
-                _baitInstance = Instantiate(_baitPrefab, mouseWorldPosition, Quaternion.identity, this.gameObject.transform);
+                else
+                {
+                    SpawnBait();
+                }
             }
         }
 
@@ -120,6 +120,29 @@ namespace Managers
 
             Destroy(_fishermanInstance.gameObject);
             _fishermanInstance = null;
+
+            return true;
+        }
+
+        private void SpawnBait()
+        {
+            _lineDrawingComponent.DrawLine(_fishmanScreenPosition, Input.mousePosition);
+
+            var mouseWorldPosition = ScreenManager.Instance.GetWorldPosition(Input.mousePosition);
+            _baitInstance = Instantiate(_baitPrefab, mouseWorldPosition, Quaternion.identity, this.gameObject.transform);
+        }
+        private bool DespawnBait()
+        {
+            if (!_lineDrawingComponent.IsLineActive ||
+                !IsBaitActive)
+            {
+                return false;
+            }
+
+            _lineDrawingComponent.EraseLine();
+
+            Destroy(_baitInstance.gameObject);
+            _baitInstance = null;
 
             return true;
         }
