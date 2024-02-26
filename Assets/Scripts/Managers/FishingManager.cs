@@ -43,8 +43,8 @@ namespace Managers
         }
         private void Start()
         {
-            SpawnFishes();
-            SpawnFisherman();
+            RespawnFishes();
+            RespawnFisherman();
 
             _lineDrawingComponent = FindFirstObjectByType<LineDrawingComponent>();
         }
@@ -65,19 +65,63 @@ namespace Managers
             }
         }
 
+        private void RespawnFishes()
+        {
+            DespawnFishes();
+            SpawnFishes();
+        }
+        private void DespawnFishes()
+        {
+            while (_fishInstances.Count > 0)
+            {
+                var fishInstance = _fishInstances[0];
+                DespawnFish(fishInstance);
+            }
+        }
         private void SpawnFishes()
         {
             for (int i = 0; i < _fishesCount; i++)
             {
                 var fishmanWorldPosition = ScreenManager.Instance.GetRandomPositionOnScreen();
-                var fishInstance = Instantiate(_fishPrefab, fishmanWorldPosition, Quaternion.identity, this.gameObject.transform);
-                _fishInstances.Add(fishInstance);
+                var fishInstance = SpawnFish(_fishPrefab, fishmanWorldPosition);
             }
+        }
+        private FishView SpawnFish(FishView fishPrefab, Vector2 worldPosition)
+        {
+            var fishInstance = Instantiate(fishPrefab, worldPosition, Quaternion.identity, this.gameObject.transform);
+            _fishInstances.Add(fishInstance);
+
+            return fishInstance;
+        }
+        private bool DespawnFish(FishView fishInstance)
+        {
+            var result = _fishInstances.Remove(fishInstance);
+            Destroy(fishInstance.gameObject);
+
+            return result;
+        }
+
+        private void RespawnFisherman()
+        {
+            DespawnFisherman();
+            SpawnFisherman();
         }
         private void SpawnFisherman()
         {
             var fishmanWorldPosition = ScreenManager.Instance.GetWorldPosition(_fishmanScreenPosition);
             _fishermanInstance = Instantiate(_fishermanViewPrefab, fishmanWorldPosition, Quaternion.identity, this.gameObject.transform);
+        }
+        private bool DespawnFisherman()
+        {
+            if (_fishermanInstance == null)
+            {
+                return false;
+            }
+
+            Destroy(_fishermanInstance.gameObject);
+            _fishermanInstance = null;
+
+            return true;
         }
     }
 }
