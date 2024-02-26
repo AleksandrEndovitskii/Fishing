@@ -8,16 +8,16 @@ namespace Components
     {
         private LineRenderer _lineRenderer;
 
-        private Camera _camera;
+        private Camera _mainCamera;
 
         private void Start()
         {
             _lineRenderer = GetComponent<LineRenderer>();
 
-            _camera = Camera.main;
+            _mainCamera = Camera.main;
 
-            _lineRenderer.startWidth = 0.001f;
-            _lineRenderer.endWidth = 0.001f;
+            _lineRenderer.startWidth = 0.1f;
+            _lineRenderer.endWidth = 0.1f;
             _lineRenderer.positionCount = 2;
         }
 
@@ -26,13 +26,21 @@ namespace Components
             var worldPositions = new List<Vector3>();
             foreach (var screenPosition in screenPositions)
             {
-                var position = new Vector3(screenPosition.x, screenPosition.y, _camera.nearClipPlane);
-                var worldPosition = _camera.ScreenToWorldPoint(position);
+                var worldPosition = GetWorldPosition(screenPosition);
                 worldPositions.Add(worldPosition);
             }
 
             _lineRenderer.positionCount = worldPositions.Count;
             _lineRenderer.SetPositions(worldPositions.ToArray());
+        }
+
+        public Vector3 GetWorldPosition(Vector3 screenPosition)
+        {
+            var position = new Vector3(screenPosition.x, screenPosition.y, _mainCamera.nearClipPlane);
+            var worldPosition = _mainCamera.ScreenToWorldPoint(position);
+            worldPosition.z = 0;
+
+            return worldPosition;
         }
     }
 }
