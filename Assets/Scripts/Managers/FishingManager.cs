@@ -56,13 +56,17 @@ namespace Managers
             {
                 if (IsBaitActive)
                 {
-                    DespawnBait();
+                    TryCatchFish();
                 }
                 else
                 {
                     SpawnBait();
                 }
             }
+        }
+        private void TryCatchFish()
+        {
+            DespawnBait();
         }
 
         private void RespawnFishes()
