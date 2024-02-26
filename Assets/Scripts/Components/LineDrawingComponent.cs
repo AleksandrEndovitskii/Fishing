@@ -16,17 +16,12 @@ namespace Components
 
             _camera = Camera.main;
 
-            _lineRenderer.startWidth = 0.01f;
-            _lineRenderer.endWidth = 0.01f;
+            _lineRenderer.startWidth = 0.001f;
+            _lineRenderer.endWidth = 0.001f;
             _lineRenderer.positionCount = 2;
         }
 
-        private void Update()
-        {
-            DrawLine(Vector3.zero, Input.mousePosition);
-        }
-
-        private void DrawLine(params Vector3[] screenPositions)
+        public void DrawLine(params Vector3[] screenPositions)
         {
             var worldPositions = new List<Vector3>();
             foreach (var screenPosition in screenPositions)
