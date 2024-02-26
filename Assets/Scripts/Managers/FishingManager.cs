@@ -10,6 +10,10 @@ namespace Managers
         public static FishingManager Instance { get; private set; }
 
         [SerializeField]
+        private FishermanView _fishermanViewPrefab;
+        private FishermanView _fishermanInstance;
+
+        [SerializeField]
         private BaitView _baitPrefab;
         private BaitView _baitInstance;
 
@@ -39,9 +43,10 @@ namespace Managers
         }
         private void Start()
         {
-            _lineDrawingComponent = FindFirstObjectByType<LineDrawingComponent>();
-
             SpawnFishes();
+            SpawnFisherman();
+
+            _lineDrawingComponent = FindFirstObjectByType<LineDrawingComponent>();
         }
 
         private void Update()
@@ -68,6 +73,11 @@ namespace Managers
                 var fishInstance = Instantiate(_fishPrefab, fishmanWorldPosition, Quaternion.identity, this.gameObject.transform);
                 _fishInstances.Add(fishInstance);
             }
+        }
+        private void SpawnFisherman()
+        {
+            var fishmanWorldPosition = ScreenManager.Instance.GetWorldPosition(_fishmanScreenPosition);
+            _fishermanInstance = Instantiate(_fishermanViewPrefab, fishmanWorldPosition, Quaternion.identity, this.gameObject.transform);
         }
     }
 }
