@@ -22,8 +22,8 @@ namespace Components
                       $"\n{nameof(_thisCollision)} == {_thisCollision.gameObject.name}" +
                       $"\n{nameof(otherCollision)} == {otherCollision.gameObject.name}");
 
-            var view1 = _thisCollision.gameObject.GetComponentInParent<IBaseView>();
-            var view2 = otherCollision.gameObject.GetComponentInParent<IBaseView>();
+            var view1 = _thisCollision.gameObject.GetComponent<IBaseView>();
+            var view2 = otherCollision.gameObject.GetComponent<IBaseView>();
             CollisionHandlingManager.Instance.HandleOnCollisionEnter(view1, view2);
         }
         private void OnCollisionExit2D(Collision2D otherCollision)
@@ -32,8 +32,8 @@ namespace Components
                       $"\n{nameof(_thisCollision)} == {_thisCollision.gameObject.name}" +
                       $"\n{nameof(otherCollision)} == {otherCollision.gameObject.name}");
 
-            var view1 = _thisCollision.gameObject.GetComponentInParent<IBaseView>();
-            var view2 = otherCollision.gameObject.GetComponentInParent<IBaseView>();
+            var view1 = _thisCollision.gameObject.GetComponent<IBaseView>();
+            var view2 = otherCollision.gameObject.GetComponent<IBaseView>();
             CollisionHandlingManager.Instance.HandleOnCollisionExit(view1, view2);
         }
 
@@ -43,8 +43,8 @@ namespace Components
                       $"\n{nameof(_thisCollider)} == {_thisCollider.gameObject.name}" +
                       $"\n{nameof(otherCollider)} == {otherCollider.gameObject.name}");
 
-            var view1 = _thisCollider.GetComponentInParent<IBaseView>();
-            var view2 = otherCollider.gameObject.GetComponentInParent<IBaseView>();
+            var view1 = _thisCollider.GetComponent<IBaseView>();
+            var view2 = otherCollider.gameObject.GetComponent<IBaseView>();
             CollisionHandlingManager.Instance.HandleOnTriggerEnter(view1, view2);
         }
         private void OnTriggerExit2D(Collider2D otherCollider)
@@ -53,8 +53,8 @@ namespace Components
                       $"\n{nameof(_thisCollider)} = {_thisCollider.gameObject.name}" +
                       $"\n{nameof(otherCollider)} == {otherCollider.gameObject.name}");
 
-            var view1 = _thisCollider.GetComponentInParent<IBaseView>();
-            var view2 = otherCollider.gameObject.GetComponentInParent<IBaseView>();
+            var view1 = _thisCollider.GetComponent<IBaseView>();
+            var view2 = otherCollider.gameObject.GetComponent<IBaseView>();
             CollisionHandlingManager.Instance.HandleOnTriggerExit(view1, view2);
         }
     }

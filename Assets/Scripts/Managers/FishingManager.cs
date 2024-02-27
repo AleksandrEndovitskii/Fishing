@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Components;
 using UnityEngine;
 using Views;
@@ -12,6 +13,7 @@ namespace Managers
         [SerializeField]
         private FishermanView _fishermanViewPrefab;
         private FishermanView _fishermanInstance;
+        private Vector3 _fishmanScreenPosition = new Vector3(Screen.width / 2, 0, 0);
 
         [SerializeField]
         private BaitView _baitPrefab;
@@ -23,8 +25,52 @@ namespace Managers
         [SerializeField]
         private int _fishesCount;
         private List<FishView> _fishInstances = new List<FishView>();
+        public event Action<FishView> FishOnBaitChanged = delegate { };
+        public FishView FishOnBait
+        {
+            get => _fishOnBait;
+            set
+            {
+                if (_fishOnBait == value)
+                {
+                    return;
+                }
 
-        private Vector3 _fishmanScreenPosition = new Vector3(Screen.width / 2, 0, 0);
+                if (Debug.isDebugBuild)
+                {
+                    Debug.Log($"{this.GetType().Name}.{nameof(FishOnBait)}" +
+                              $"\n{_fishOnBait} -> {value}");
+                }
+
+                _fishOnBait = value;
+
+                FishOnBaitChanged?.Invoke(_fishOnBait);
+            }
+        }
+        private FishView _fishOnBait;
+        public event Action<bool> IsFishOnBaitChanged = delegate { };
+        public bool IsFishOnBait
+        {
+            get => _isFishOnBait;
+            private set
+            {
+                if (_isFishOnBait == value)
+                {
+                    return;
+                }
+
+                if (Debug.isDebugBuild)
+                {
+                    Debug.Log($"{this.GetType().Name}.{nameof(IsFishOnBait)}" +
+                              $"\n{_isFishOnBait} -> {value}");
+                }
+
+                _isFishOnBait = value;
+
+                IsFishOnBaitChanged?.Invoke(_isFishOnBait);
+            }
+        }
+        private bool _isFishOnBait;
 
         private LineDrawingComponent _lineDrawingComponent;
 
@@ -41,6 +87,8 @@ namespace Managers
                     Destroy(this.gameObject);
                 }
             }
+
+            FishOnBaitChanged += FishingManager_FishOnBaitChanged;
         }
         private void Start()
         {
@@ -48,6 +96,10 @@ namespace Managers
             RespawnFisherman();
 
             _lineDrawingComponent = FindFirstObjectByType<LineDrawingComponent>();
+        }
+        private void OnDestroy()
+        {
+            FishOnBaitChanged -= FishingManager_FishOnBaitChanged;
         }
 
         private void Update()
@@ -66,6 +118,10 @@ namespace Managers
         }
         private void TryCatchFish()
         {
+            if (FishOnBait)
+            {
+                DespawnFish(FishOnBait);
+            }
             DespawnBait();
         }
 
@@ -149,6 +205,11 @@ namespace Managers
             _baitInstance = null;
 
             return true;
+        }
+
+        private void FishingManager_FishOnBaitChanged(FishView fishView)
+        {
+            IsFishOnBait = fishView != null;
         }
     }
 }
