@@ -71,6 +71,75 @@ namespace Managers
             }
         }
         private bool _isFishOnBait;
+        public event Action<int> TotalAttemptsToCatchFishCountChanged = delegate { };
+        public int TotalAttemptsToCatchFishCount
+        {
+            get => _totalAttemptsToCatchFishCount;
+            private set
+            {
+                if (_totalAttemptsToCatchFishCount == value)
+                {
+                    return;
+                }
+
+                if (Debug.isDebugBuild)
+                {
+                    Debug.Log($"{this.GetType().Name}.{nameof(TotalAttemptsToCatchFishCount)}" +
+                              $"\n{_totalAttemptsToCatchFishCount} -> {value}");
+                }
+
+                _totalAttemptsToCatchFishCount = value;
+
+                TotalAttemptsToCatchFishCountChanged?.Invoke(_totalAttemptsToCatchFishCount);
+            }
+        }
+        private int _totalAttemptsToCatchFishCount;
+        public event Action<int> SuccessfulAttemptsToCatchFishCountChanged = delegate { };
+        public int SuccessfulAttemptsToCatchFishCount
+        {
+            get => _successfulAttemptsToCatchFishCount;
+            private set
+            {
+                if (_successfulAttemptsToCatchFishCount == value)
+                {
+                    return;
+                }
+
+                if (Debug.isDebugBuild)
+                {
+                    Debug.Log($"{this.GetType().Name}.{nameof(SuccessfulAttemptsToCatchFishCount)}" +
+                              $"\n{_successfulAttemptsToCatchFishCount} -> {value}");
+                }
+
+                _successfulAttemptsToCatchFishCount = value;
+
+                SuccessfulAttemptsToCatchFishCountChanged?.Invoke(_successfulAttemptsToCatchFishCount);
+            }
+        }
+        private int _successfulAttemptsToCatchFishCount;
+        public event Action<int> RtpPercentsChanged = delegate { };
+        public int RtpPercents
+        {
+            get => _rtpPercents;
+            private set
+            {
+                if (_rtpPercents == value)
+                {
+                    return;
+                }
+
+                if (Debug.isDebugBuild)
+                {
+                    Debug.Log($"{this.GetType().Name}.{nameof(RtpPercents)}" +
+                              $"\n{_rtpPercents} -> {value}");
+                }
+
+                _rtpPercents = value;
+
+                RtpPercentsChanged?.Invoke(_rtpPercents);
+            }
+        }
+        private int _rtpPercents;
 
         private LineDrawingComponent _lineDrawingComponent;
 
@@ -88,7 +157,11 @@ namespace Managers
                 }
             }
 
-            FishOnBaitChanged += FishingManager_FishOnBaitChanged;
+            FishOnBaitChanged += (value) => IsFishOnBait = value != null;
+            TotalAttemptsToCatchFishCountChanged += (value) =>
+                RtpPercents = (int)(100 * (float)SuccessfulAttemptsToCatchFishCount / TotalAttemptsToCatchFishCount);
+            SuccessfulAttemptsToCatchFishCountChanged += (value) =>
+                RtpPercents = (int)(100 * (float)SuccessfulAttemptsToCatchFishCount / TotalAttemptsToCatchFishCount);
         }
         private void Start()
         {
@@ -99,7 +172,7 @@ namespace Managers
         }
         private void OnDestroy()
         {
-            FishOnBaitChanged -= FishingManager_FishOnBaitChanged;
+            //
         }
 
         private void Update()
@@ -121,8 +194,12 @@ namespace Managers
             if (FishOnBait)
             {
                 DespawnFish(FishOnBait);
+                SuccessfulAttemptsToCatchFishCount++;
             }
+
             DespawnBait();
+
+            TotalAttemptsToCatchFishCount++;
         }
 
         private void RespawnFishes()
@@ -205,11 +282,6 @@ namespace Managers
             _baitInstance = null;
 
             return true;
-        }
-
-        private void FishingManager_FishOnBaitChanged(FishView fishView)
-        {
-            IsFishOnBait = fishView != null;
         }
     }
 }
