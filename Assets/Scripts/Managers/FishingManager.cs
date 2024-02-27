@@ -6,6 +6,11 @@ using Views;
 
 namespace Managers
 {
+    /*
+    different fish have varying difficulties to catch, representing volatility. 
+    Implement a simple RNG system that determines which fish bites the line, with rarer fish having a lower chance.
+    Display a log that showcases the result of the last 10 fishing attempts (e.g., "Common Fish," "Rare Fish," "Missed").
+     */
     public class FishingManager : MonoBehaviour
     {
         public static FishingManager Instance { get; private set; }

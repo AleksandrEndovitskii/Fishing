@@ -1,6 +1,8 @@
+using Models;
+
 namespace Views
 {
-    public class FishermanView : IBaseView
+    public class FishermanView : BaseView<FishermanModel>
     {
     }
 }

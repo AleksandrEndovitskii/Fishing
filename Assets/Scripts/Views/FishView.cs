@@ -1,6 +1,8 @@
+using Models;
+
 namespace Views
 {
-    public class FishView : IBaseView
+    public class FishView : BaseView<FishModel>
     {
     }
 }

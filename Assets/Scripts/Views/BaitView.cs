@@ -1,9 +1,10 @@
+using Models;
 using UnityEngine;
 
 namespace Views
 {
     [RequireComponent(typeof(Collider2D))]
-    public class BaitView : IBaseView
+    public class BaitView : BaseView<BaitModel>
     {
     }
 }
