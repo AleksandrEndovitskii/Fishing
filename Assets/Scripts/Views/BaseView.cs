@@ -21,7 +21,7 @@ namespace Views
                 }
 
                 Debug.Log($"{this.GetType().Name}.{nameof(Model)}" +
-                          $"\n{_model} -> {_model}");
+                          $"\n{_model} -> {value}");
 
                 _model = value;
                 Redraw(_model);

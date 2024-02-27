@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Components;
+using Helpers;
+using Models;
 using UnityEngine;
 using Views;
 
@@ -222,15 +224,18 @@ namespace Managers
         }
         private void SpawnFishes()
         {
-            for (int i = 0; i < _fishesCount; i++)
+            var itemRarities = EnumHelper.GetValues<ItemRarity>();
+            foreach (var itemRarity in itemRarities)
             {
+                var fishModel = new FishModel(itemRarity, 0.1f);
                 var fishmanWorldPosition = ScreenManager.Instance.GetRandomPositionOnScreen();
-                var fishInstance = SpawnFish(_fishPrefab, fishmanWorldPosition);
+                var fishInstance = SpawnFish(_fishPrefab, fishModel, fishmanWorldPosition);
             }
         }
-        private FishView SpawnFish(FishView fishPrefab, Vector2 worldPosition)
+        private FishView SpawnFish(FishView fishPrefab, FishModel fishModel, Vector2 worldPosition)
         {
             var fishInstance = Instantiate(fishPrefab, worldPosition, Quaternion.identity, this.gameObject.transform);
+            fishInstance.Model = fishModel;
             _fishInstances.Add(fishInstance);
 
             return fishInstance;
