@@ -8,12 +8,11 @@ namespace Models
         public float DropChance { get; private set; }
         public Color Color { get; private set; }
 
-        public FishModel(ItemRarity rarity, float dropChance)
+        public FishModel(ItemRarity rarity)
         {
             Rarity = rarity;
-            DropChance = dropChance;
-            var color = Helpers.ItemRarityHelper.GetColor(Rarity);
-            Color = color;
+            DropChance = Helpers.RarityHelper.GetDropChance(rarity);;
+            Color = Helpers.RarityHelper.GetColor(rarity);
         }
     }
 }

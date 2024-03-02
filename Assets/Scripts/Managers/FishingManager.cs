@@ -227,7 +227,7 @@ namespace Managers
             var itemRarities = EnumHelper.GetValues<ItemRarity>();
             foreach (var itemRarity in itemRarities)
             {
-                var fishModel = new FishModel(itemRarity, 0.1f);
+                var fishModel = new FishModel(itemRarity);
                 var fishmanWorldPosition = ScreenManager.Instance.GetRandomPositionOnScreen();
                 var fishInstance = SpawnFish(_fishPrefab, fishModel, fishmanWorldPosition);
             }

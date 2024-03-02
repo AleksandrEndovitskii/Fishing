@@ -20,7 +20,7 @@ namespace Views
         {
             base.Redraw(model);
 
-            var colorName = ColorHelper.GetColorName(model.Color);
+            var colorName = RarityHelper.GetClosestColorName(model.Color);
             var path = MATERIALS_FOLDER_PATH + colorName;
             var material = Resources.Load<Material>(path);
             _spriteRenderer.material = material;
