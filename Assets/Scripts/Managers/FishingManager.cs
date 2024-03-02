@@ -9,9 +9,14 @@ using Views;
 namespace Managers
 {
     /*
-    different fish have varying difficulties to catch, representing volatility. 
-    Implement a simple RNG system that determines which fish bites the line, with rarer fish having a lower chance.
-    Display a log that showcases the result of the last 10 fishing attempts (e.g., "Common Fish," "Rare Fish," "Missed").
+     * @brief FishingManager is a singleton class that manages the fishing process.
+     * @details FishingManager is a singleton class that manages the fishing process.
+     * It is responsible for:
+     * - Spawning and despawning fishes.
+     * - Spawning and despawning fisherman.
+     * - Spawning and despawning bait.
+     * - Handling the fishing process.
+     * - Displaying the result of the last 10 fishing attempts.
      */
     public class FishingManager : MonoBehaviour
     {
@@ -189,6 +194,7 @@ namespace Managers
                 if (IsBaitActive)
                 {
                     TryCatchFish();
+                    DespawnBait();
                 }
                 else
                 {
@@ -198,15 +204,33 @@ namespace Managers
         }
         private void TryCatchFish()
         {
-            if (FishOnBait)
+            TotalAttemptsToCatchFishCount++;
+
+            if (!FishOnBait)
             {
-                DespawnFish(FishOnBait);
-                SuccessfulAttemptsToCatchFishCount++;
+                if (Debug.isDebugBuild)
+                {
+                    Debug.LogWarning($"{this.GetType().Name}.{nameof(TotalAttemptsToCatchFishCount)}_Aborted" +
+                              $"\n{nameof(FishOnBait)} == {FishOnBait}");
+                }
+
+                return;
             }
 
-            DespawnBait();
+            var isFishDropped = IsFishDropped(FishOnBait.Model);
+            if (!isFishDropped)
+            {
+                if (Debug.isDebugBuild)
+                {
+                    Debug.LogWarning($"{this.GetType().Name}.{nameof(TotalAttemptsToCatchFishCount)}_Aborted" +
+                                     $"\n{nameof(isFishDropped)} == {isFishDropped}");
+                }
 
-            TotalAttemptsToCatchFishCount++;
+                return;
+            }
+
+            DespawnFish(FishOnBait);
+            SuccessfulAttemptsToCatchFishCount++;
         }
 
         private void RespawnFishes()
@@ -292,6 +316,14 @@ namespace Managers
             _baitInstance = null;
 
             return true;
+        }
+
+        private bool IsFishDropped(FishModel fishModel)
+        {
+            var randomValue = UnityEngine.Random.Range(0, 100);
+            var result = randomValue < fishModel.DropChance;
+
+            return result;
         }
     }
 }
