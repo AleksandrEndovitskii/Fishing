@@ -202,6 +202,7 @@ namespace Managers
                 }
             }
         }
+
         private void TryCatchFish()
         {
             TotalAttemptsToCatchFishCount++;
