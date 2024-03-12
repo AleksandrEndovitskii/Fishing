@@ -1,5 +1,7 @@
 # Fishing
 
+https://aleksandrendovitskii.github.io/Fishing_Builds_WebGL/
+
 Note: Please select one or more of the following tasks to demonstrate your expertise and skills. While we value a polished end product, the emphasis here is on your problem-solving approach, coding style, and understanding of the concepts. Each task should not take more than a couple of hours to complete. Once done, please provide a brief explanation of your approach, any assets used, and the final product.
 
 Task 1 - Basic Fishing Mechanic:
