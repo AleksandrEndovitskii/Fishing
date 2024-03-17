@@ -16,10 +16,17 @@ namespace Components
         }
         private void Start()
         {
-            FishingManager.Instance.RtpPercentsChanged += (percents) =>
-            {
-                _text.text = _initialText + percents;
-            };
+            FishingManager.Instance.RtpPercentsChanged += FishingManager_RtpPercentsChanged;
+            FishingManager_RtpPercentsChanged(FishingManager.Instance.RtpPercents);
+        }
+        private void OnDestroy()
+        {
+            FishingManager.Instance.RtpPercentsChanged -= FishingManager_RtpPercentsChanged;
+        }
+
+        private void FishingManager_RtpPercentsChanged(int percents)
+        {
+            _text.text = _initialText + percents;
         }
     }
 }

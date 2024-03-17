@@ -17,10 +17,17 @@ namespace Components
         }
         private void Start()
         {
-            FishingManager.Instance.SuccessfulAttemptsToCatchFishCountChanged += (count) =>
-            {
-                _text.text = _initialText + count;
-            };
+            FishingManager.Instance.SuccessfulAttemptsToCatchFishCountChanged += FishingManager_SuccessfulAttemptsToCatchFishCountChanged;
+            FishingManager_SuccessfulAttemptsToCatchFishCountChanged(FishingManager.Instance.SuccessfulAttemptsToCatchFishCount);
+        }
+        private void OnDestroy()
+        {
+            FishingManager.Instance.SuccessfulAttemptsToCatchFishCountChanged -= FishingManager_SuccessfulAttemptsToCatchFishCountChanged;
+        }
+
+        private void FishingManager_SuccessfulAttemptsToCatchFishCountChanged(int count)
+        {
+            _text.text = _initialText + count;
         }
     }
 }
