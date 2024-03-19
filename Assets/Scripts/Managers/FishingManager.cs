@@ -49,7 +49,7 @@ namespace Managers
 
                 if (Debug.isDebugBuild)
                 {
-                    Debug.Log($"{this.GetType().Name}.{nameof(FishOnBait)}" +
+                    Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
                               $"\n{_fishOnBait} -> {value}");
                 }
 
@@ -72,7 +72,7 @@ namespace Managers
 
                 if (Debug.isDebugBuild)
                 {
-                    Debug.Log($"{this.GetType().Name}.{nameof(IsFishOnBait)}" +
+                    Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
                               $"\n{_isFishOnBait} -> {value}");
                 }
 
@@ -95,7 +95,7 @@ namespace Managers
 
                 if (Debug.isDebugBuild)
                 {
-                    Debug.Log($"{this.GetType().Name}.{nameof(TotalAttemptsToCatchFishCount)}" +
+                    Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
                               $"\n{_totalAttemptsToCatchFishCount} -> {value}");
                 }
 
@@ -118,7 +118,7 @@ namespace Managers
 
                 if (Debug.isDebugBuild)
                 {
-                    Debug.Log($"{this.GetType().Name}.{nameof(SuccessfulAttemptsToCatchFishCount)}" +
+                    Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
                               $"\n{_successfulAttemptsToCatchFishCount} -> {value}");
                 }
 
@@ -141,7 +141,7 @@ namespace Managers
 
                 if (Debug.isDebugBuild)
                 {
-                    Debug.Log($"{this.GetType().Name}.{nameof(RtpPercents)}" +
+                    Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
                               $"\n{_rtpPercents} -> {value}");
                 }
 
@@ -201,7 +201,7 @@ namespace Managers
             {
                 if (Debug.isDebugBuild)
                 {
-                    Debug.LogWarning($"{this.GetType().Name}.{nameof(TotalAttemptsToCatchFishCount)}_Aborted" +
+                    Debug.LogWarning($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
                               $"\n{nameof(FishOnBait)} == {FishOnBait}");
                 }
 
@@ -213,7 +213,7 @@ namespace Managers
             {
                 if (Debug.isDebugBuild)
                 {
-                    Debug.LogWarning($"{this.GetType().Name}.{nameof(TotalAttemptsToCatchFishCount)}_Aborted" +
+                    Debug.LogWarning($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
                                      $"\n{nameof(isFishDropped)} == {isFishDropped}");
                 }
 

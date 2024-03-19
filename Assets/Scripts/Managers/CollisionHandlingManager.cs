@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using Helpers;
 using UnityEngine;
 using Views;
 
@@ -30,7 +31,7 @@ namespace Managers
                 return;
             }
 
-            Debug.Log($"{this.GetType().Name}.{nameof(HandleOnTriggerEnter)}" +
+            Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
                       $"\n{nameof(view1)} == {view1.GetType().Name}" +
                       $"\n{nameof(view2)} == {view2.GetType().Name}");
 
@@ -44,7 +45,7 @@ namespace Managers
                 return;
             }
 
-            Debug.Log($"{this.GetType().Name}.{nameof(HandleOnTriggerExit)}" +
+            Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
                       $"\n{nameof(view1)} == {view1.GetType().Name}" +
                       $"\n{nameof(view2)} == {view2.GetType().Name}");
 
@@ -59,7 +60,7 @@ namespace Managers
                 return;
             }
 
-            Debug.Log($"{this.GetType().Name}.{nameof(HandleOnCollisionEnter)}" +
+            Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
                       $"\n{nameof(view1)} == {view1.GetType().Name}" +
                       $"\n{nameof(view2)} == {view2.GetType().Name}");
 
@@ -73,7 +74,7 @@ namespace Managers
                 return;
             }
 
-            Debug.Log($"{this.GetType().Name}.{nameof(HandleOnCollisionExit)}" +
+            Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
                       $"\n{nameof(view1)} == {view1.GetType().Name}" +
                       $"\n{nameof(view2)} == {view2.GetType().Name}");
 

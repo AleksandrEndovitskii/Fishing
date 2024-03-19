@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using Helpers;
 using UnityEngine;
 
 namespace Managers
@@ -21,7 +22,7 @@ namespace Managers
 
                 if (Debug.isDebugBuild)
                 {
-                    Debug.Log($"{this.GetType().Name}.{nameof(IsInitialized)}" +
+                    Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
                               $"\n{_isInitialized} -> {value}");
                 }
 
