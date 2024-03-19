@@ -15,8 +15,8 @@ namespace Managers
         }
         protected override async UniTask Subscribe()
         {
-            await UniTask.WaitUntil(() => ScreenManager.Instance != null &&
-                                          ScreenManager.Instance.IsInitialized);
+            await UniTask.WaitUntil(() => CollisionHandlingManager.Instance != null &&
+                                          CollisionHandlingManager.Instance.IsInitialized);
 
             CollisionHandlingManager.Instance.TriggerEnter += CollisionHandlingManager_TriggerEnter;
             CollisionHandlingManager.Instance.TriggerExit += CollisionHandlingManager_TriggerExit;
