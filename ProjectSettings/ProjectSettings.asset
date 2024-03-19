@@ -954,11 +954,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 089c29be-26de-40bd-8585-a8266611947a
+  cloudProjectId: a777baf7-1e04-4230-8245-d596a2e739e5
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: Fishing
-  organizationId: fancorp
+  organizationId: a_endovitsky
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
