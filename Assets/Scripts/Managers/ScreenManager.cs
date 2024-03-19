@@ -1,41 +1,30 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Managers
 {
-    public class ScreenManager : MonoBehaviour
+    public class ScreenManager : BaseManager<ScreenManager>
     {
-        public static ScreenManager Instance { get; private set; }
-
         private static Camera _mainCamera;
 
         private static Vector2 _bottomLeftWorldPosition;
         private static Vector2 _topRightWorldPosition;
 
-        private void Awake()
+        protected override async UniTask Initialize()
         {
-            if (Instance == null)
-            {
-                Instance = this.gameObject.GetComponent<ScreenManager>();
-            }
-            else
-            {
-                if (Instance != this)
-                {
-                    Destroy(this.gameObject);
-                }
-            }
-
             _mainCamera = Camera.main;
 
             var bottomLeftScreenPosition = new Vector3(0, 0, _mainCamera.transform.position.z);
             var topRightScreenPosition = new Vector3(Screen.width, Screen.height, _mainCamera.transform.position.z);
             _bottomLeftWorldPosition = _mainCamera.ScreenToWorldPoint(bottomLeftScreenPosition);
             _topRightWorldPosition = _mainCamera.ScreenToWorldPoint(topRightScreenPosition);
+
+            IsInitialized = true;
         }
-        private void Start()
+        protected override async UniTask UnInitialize()
         {
-            //
+            IsInitialized = false;
         }
 
         public Vector2 GetRandomPosition(Vector2 minPosition, Vector2 maxPosition)

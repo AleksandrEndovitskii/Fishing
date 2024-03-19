@@ -1,10 +1,11 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Views;
 
 namespace Managers
 {
-    public class CollisionHandlingManager : MonoBehaviour
+    public class CollisionHandlingManager : BaseManager<CollisionHandlingManager>
     {
         public event Action<IBaseView, IBaseView> TriggerEnter = delegate {};
         public event Action<IBaseView, IBaseView> TriggerExit = delegate {};
@@ -12,25 +13,13 @@ namespace Managers
         public event Action<IBaseView, IBaseView> CollisionEnter = delegate {};
         public event Action<IBaseView, IBaseView> CollisionExit = delegate {};
 
-        public static CollisionHandlingManager Instance { get; private set; }
-
-        private void Awake()
+        protected override async UniTask Initialize()
         {
-            if (Instance == null)
-            {
-                Instance = this.gameObject.GetComponent<CollisionHandlingManager>();
-            }
-            else
-            {
-                if (Instance != this)
-                {
-                    Destroy(this.gameObject);
-                }
-            }
+            IsInitialized = true;
         }
-        private void Start()
+        protected override async UniTask UnInitialize()
         {
-            //
+            IsInitialized = false;
         }
 
         public void HandleOnTriggerEnter(IBaseView view1, IBaseView view2)

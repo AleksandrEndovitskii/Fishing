@@ -1,39 +1,33 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
 using Views;
 
 namespace Managers
 {
-    public class GamePlayManager : MonoBehaviour
+    public class GamePlayManager : BaseManager<GamePlayManager>
     {
-        public static CollisionHandlingManager Instance { get; private set; }
+        protected override async UniTask Initialize()
+        {
+            await UniTask.WaitUntil(() => ScreenManager.Instance != null &&
+                                          ScreenManager.Instance.IsInitialized);
 
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this.gameObject.GetComponent<CollisionHandlingManager>();
-            }
-            else
-            {
-                if (Instance != this)
-                {
-                    Destroy(this.gameObject);
-                }
-            }
-        }
-        private void Start()
-        {
             CollisionHandlingManager.Instance.TriggerEnter += CollisionHandlingManager_TriggerEnter;
             CollisionHandlingManager.Instance.TriggerExit += CollisionHandlingManager_TriggerExit;
             CollisionHandlingManager.Instance.CollisionEnter += CollisionHandlingManager_CollisionEnter;
             CollisionHandlingManager.Instance.CollisionExit += CollisionHandlingManager_CollisionExit;
+
+            IsInitialized = true;
         }
-        private void OnDestroy()
+        protected override async UniTask UnInitialize()
         {
-            CollisionHandlingManager.Instance.TriggerEnter -= CollisionHandlingManager_TriggerEnter;
-            CollisionHandlingManager.Instance.TriggerExit -= CollisionHandlingManager_TriggerExit;
-            CollisionHandlingManager.Instance.CollisionEnter -= CollisionHandlingManager_CollisionEnter;
-            CollisionHandlingManager.Instance.CollisionExit -= CollisionHandlingManager_CollisionExit;
+            if (CollisionHandlingManager.Instance != null)
+            {
+                CollisionHandlingManager.Instance.TriggerEnter -= CollisionHandlingManager_TriggerEnter;
+                CollisionHandlingManager.Instance.TriggerExit -= CollisionHandlingManager_TriggerExit;
+                CollisionHandlingManager.Instance.CollisionEnter -= CollisionHandlingManager_CollisionEnter;
+                CollisionHandlingManager.Instance.CollisionExit -= CollisionHandlingManager_CollisionExit;
+            }
+
+            IsInitialized = false;
         }
 
         private void TryHandleBaitFishCollisionEnter(IBaseView baseView1, IBaseView baseView2)

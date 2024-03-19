@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Components;
+using Cysharp.Threading.Tasks;
 using Helpers;
 using Models;
 using UnityEngine;
@@ -18,10 +19,8 @@ namespace Managers
      * - Handling the fishing process.
      * - Displaying the result of the last 10 fishing attempts.
      */
-    public class FishingManager : MonoBehaviour
+    public class FishingManager : BaseManager<FishingManager>
     {
-        public static FishingManager Instance { get; private set; }
-
         [SerializeField]
         private FishermanView _fishermanViewPrefab;
         private FishermanView _fishermanInstance;
@@ -155,36 +154,27 @@ namespace Managers
 
         private LineDrawingComponent _lineDrawingComponent;
 
-        private void Awake()
+        protected override async UniTask Initialize()
         {
-            if (Instance == null)
-            {
-                Instance = this.gameObject.GetComponent<FishingManager>();
-            }
-            else
-            {
-                if (Instance != this)
-                {
-                    Destroy(this.gameObject);
-                }
-            }
-
             FishOnBaitChanged += (value) => IsFishOnBait = value != null;
             TotalAttemptsToCatchFishCountChanged += (value) =>
                 RtpPercents = (int)(100 * (float)SuccessfulAttemptsToCatchFishCount / TotalAttemptsToCatchFishCount);
             SuccessfulAttemptsToCatchFishCountChanged += (value) =>
                 RtpPercents = (int)(100 * (float)SuccessfulAttemptsToCatchFishCount / TotalAttemptsToCatchFishCount);
-        }
-        private void Start()
-        {
+
+            await UniTask.WaitUntil(() => ScreenManager.Instance != null &&
+                                          ScreenManager.Instance.IsInitialized);
+
             RespawnFishes();
             RespawnFisherman();
 
             _lineDrawingComponent = FindFirstObjectByType<LineDrawingComponent>();
+
+            IsInitialized = true;
         }
-        private void OnDestroy()
+        protected override async UniTask UnInitialize()
         {
-            //
+            IsInitialized = false;
         }
 
         private void Update()
@@ -253,8 +243,8 @@ namespace Managers
             foreach (var itemRarity in itemRarities)
             {
                 var fishModel = new FishModel(itemRarity);
-                var fishmanWorldPosition = ScreenManager.Instance.GetRandomPositionOnScreen();
-                var fishInstance = SpawnFish(_fishPrefab, fishModel, fishmanWorldPosition);
+                var fishWorldPosition = ScreenManager.Instance.GetRandomPositionOnScreen();
+                var fishInstance = SpawnFish(_fishPrefab, fishModel, fishWorldPosition);
             }
         }
         private FishView SpawnFish(FishView fishPrefab, FishModel fishModel, Vector2 worldPosition)

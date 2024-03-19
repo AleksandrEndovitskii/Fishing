@@ -1,51 +1,15 @@
-using System;
-using UnityEngine;
-
+using Cysharp.Threading.Tasks;
 namespace Managers
 {
-    public class AuthenticationManager : MonoBehaviour
+    public class AuthenticationManager : BaseManager<AuthenticationManager>
     {
-        public static AuthenticationManager Instance { get; private set; }
-        
-        public event Action<bool> IsInitializedChanged = delegate { };
-        public bool IsInitialized
+        protected override async UniTask Initialize()
         {
-            get => _isInitialized;
-            set
-            {
-                if (_isInitialized == value)
-                {
-                    return;
-                }
-
-                if (Debug.isDebugBuild)
-                {
-                    Debug.Log($"{this.GetType().Name}.{nameof(IsInitialized)}" +
-                              $"\n{_isInitialized} -> {value}");
-                }
-
-                _isInitialized = value;
-
-                IsInitializedChanged?.Invoke(_isInitialized);
-            }
-        }
-        private bool _isInitialized;
-
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this.gameObject.GetComponent<AuthenticationManager>();
-            }
-            else
-            {
-                if (Instance != this)
-                {
-                    Destroy(this.gameObject);
-                }
-            }
-
             IsInitialized = true;
+        }
+        protected override async UniTask UnInitialize()
+        {
+            IsInitialized = false;
         }
     }
 }
