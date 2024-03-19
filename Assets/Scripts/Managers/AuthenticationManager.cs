@@ -32,6 +32,29 @@ namespace Managers
             }
         }
         private bool _isAuthorized;
+        public event Action<string> PlayerIdChanged = delegate { };
+        public string PlayerId
+        {
+            get => _playerId;
+            set
+            {
+                if (_playerId == value)
+                {
+                    return;
+                }
+
+                if (Debug.isDebugBuild)
+                {
+                    Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
+                              $"\n{_playerId} -> {value}");
+                }
+
+                _playerId = value;
+
+                PlayerIdChanged?.Invoke(_playerId);
+            }
+        }
+        private string _playerId;
 
         protected override async UniTask Initialize()
         {
@@ -95,6 +118,7 @@ namespace Managers
         private void UpdateDataInReactiveProperties()
         {
             IsAuthorized = AuthenticationService.Instance.IsAuthorized;
+            PlayerId = AuthenticationService.Instance.PlayerId;
         }
 
         private void AuthenticationService_SignedIn()
