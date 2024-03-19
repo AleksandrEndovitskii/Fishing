@@ -49,13 +49,20 @@ namespace Managers
             }
 
             await Initialize();
+
+            await Subscribe();
         }
         private async void OnDestroy()
         {
+            await UnSubscribe();
+
             await UnInitialize();
         }
 
         protected abstract UniTask Initialize();
         protected abstract UniTask UnInitialize();
+
+        protected abstract UniTask Subscribe();
+        protected abstract UniTask UnSubscribe();
     }
 }

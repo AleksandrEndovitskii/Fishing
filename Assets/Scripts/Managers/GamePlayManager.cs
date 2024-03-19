@@ -7,6 +7,14 @@ namespace Managers
     {
         protected override async UniTask Initialize()
         {
+            IsInitialized = true;
+        }
+        protected override async UniTask UnInitialize()
+        {
+            IsInitialized = false;
+        }
+        protected override async UniTask Subscribe()
+        {
             await UniTask.WaitUntil(() => ScreenManager.Instance != null &&
                                           ScreenManager.Instance.IsInitialized);
 
@@ -14,10 +22,8 @@ namespace Managers
             CollisionHandlingManager.Instance.TriggerExit += CollisionHandlingManager_TriggerExit;
             CollisionHandlingManager.Instance.CollisionEnter += CollisionHandlingManager_CollisionEnter;
             CollisionHandlingManager.Instance.CollisionExit += CollisionHandlingManager_CollisionExit;
-
-            IsInitialized = true;
         }
-        protected override async UniTask UnInitialize()
+        protected override async UniTask UnSubscribe()
         {
             if (CollisionHandlingManager.Instance != null)
             {
@@ -26,8 +32,6 @@ namespace Managers
                 CollisionHandlingManager.Instance.CollisionEnter -= CollisionHandlingManager_CollisionEnter;
                 CollisionHandlingManager.Instance.CollisionExit -= CollisionHandlingManager_CollisionExit;
             }
-
-            IsInitialized = false;
         }
 
         private void TryHandleBaitFishCollisionEnter(IBaseView baseView1, IBaseView baseView2)

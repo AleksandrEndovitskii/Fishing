@@ -22,6 +22,12 @@ namespace Managers
         {
             IsInitialized = false;
         }
+        protected override async UniTask Subscribe()
+        {
+        }
+        protected override async UniTask UnSubscribe()
+        {
+        }
 
         public void HandleOnTriggerEnter(IBaseView view1, IBaseView view2)
         {

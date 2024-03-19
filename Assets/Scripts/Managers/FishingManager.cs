@@ -176,6 +176,12 @@ namespace Managers
         {
             IsInitialized = false;
         }
+        protected override async UniTask Subscribe()
+        {
+        }
+        protected override async UniTask UnSubscribe()
+        {
+        }
 
         private void Update()
         {

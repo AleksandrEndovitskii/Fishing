@@ -26,6 +26,12 @@ namespace Managers
         {
             IsInitialized = false;
         }
+        protected override async UniTask Subscribe()
+        {
+        }
+        protected override async UniTask UnSubscribe()
+        {
+        }
 
         public Vector2 GetRandomPosition(Vector2 minPosition, Vector2 maxPosition)
         {
