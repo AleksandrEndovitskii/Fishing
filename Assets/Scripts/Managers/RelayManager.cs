@@ -36,6 +36,13 @@ namespace Managers
         }
         private string _joinCode;
 
+        // copy/paste from NetworkManagerRelayIntegration.cs
+#if UNITY_WEBGL
+        private const string CONNECTION_TYPE = "wss";
+#else
+        private const string CONNECTION_TYPE = "dtls";
+#endif
+
         protected override async UniTask Initialize()
         {
             await UniTask.WaitUntil(() => AuthenticationManager.Instance != null &&
@@ -71,8 +78,7 @@ namespace Managers
                 var allocation = await RelayService.Instance.CreateAllocationAsync(maxConnectionsCount);
                 JoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
-                // "dtls" - encrypted connection type
-                var relayServerData = new RelayServerData(allocation, "dtls");
+                var relayServerData = new RelayServerData(allocation, CONNECTION_TYPE);
                 NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
                 NetworkManager.Singleton.StartHost();
@@ -93,8 +99,7 @@ namespace Managers
             {
                 var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
 
-                // "dtls" - encrypted connection type
-                var relayServerData = new RelayServerData(joinAllocation, "dtls");
+                var relayServerData = new RelayServerData(joinAllocation, CONNECTION_TYPE);
                 NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
                 NetworkManager.Singleton.StartClient();
