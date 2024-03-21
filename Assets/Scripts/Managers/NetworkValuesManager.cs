@@ -36,7 +36,7 @@ namespace Managers
         {
             Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}");
 
-            this.gameObject.name += this.OwnerClientId;
+            this.gameObject.name += "_" + this.OwnerClientId;
 
             if (this.IsOwner)
             {

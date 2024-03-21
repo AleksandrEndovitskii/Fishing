@@ -20,11 +20,11 @@ namespace Components.CharacterComponents
 
             this.gameObject.transform.position = _playerView.Model.Position.ToUnity();
 
-            this.InvokeActionPeriodically(() =>
-                {
-                    _playerView.Model.Position = this.gameObject.transform.position.ToSystemNumeric();
-                },
-                0.1f);
+            // this.InvokeActionPeriodically(() =>
+            //     {
+            //         _playerView.Model.Position = this.gameObject.transform.position.ToSystemNumeric();
+            //     },
+            //     0.1f);
         }
 
         protected override async UniTask UnInitialize()
