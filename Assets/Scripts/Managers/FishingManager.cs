@@ -265,7 +265,7 @@ namespace Managers
 
         private void SpawnBait()
         {
-            _lineDrawingComponent.DrawLine(CharactersManager.Instance.PlayerInstance.transform.position, Input.mousePosition);
+            _lineDrawingComponent.DrawLine(CharactersManager.Instance.PlayerViewInstance.transform.position, Input.mousePosition);
 
             var mouseWorldPosition = ScreenManager.Instance.GetWorldPosition(Input.mousePosition);
             _baitInstance = Instantiate(_baitPrefab, mouseWorldPosition, Quaternion.identity, this.gameObject.transform);
