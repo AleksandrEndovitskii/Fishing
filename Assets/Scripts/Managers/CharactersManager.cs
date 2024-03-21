@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Extensions;
 using Helpers;
 using Models;
 using Unity.Netcode;
@@ -43,14 +44,24 @@ namespace Managers
         public PlayerView PlayerViewInstance { get; private set; }
         public List<PlayerView> PlayerViewInstances = new List<PlayerView>();
 
-        private Vector3 _playerScreenPosition = new Vector3(Screen.width / 2, 0, 0);
+        public Vector3 FishmanWorldPosition => ScreenManager.Instance.GetWorldPosition(_playerScreenPosition);
+
+        private readonly Vector3 _playerScreenPosition = new Vector3(Screen.width / 2, 0, 0);
 
         protected override async UniTask Initialize()
         {
+            // TODO: LoadPlayerModel
+            PlayerModel = new PlayerModel
+            {
+                Position = FishmanWorldPosition.ToSystemNumeric()
+            };
+
             IsInitialized = true;
         }
         protected override async UniTask UnInitialize()
         {
+            // TODO: SavePlayerModel
+
             IsInitialized = false;
         }
 
