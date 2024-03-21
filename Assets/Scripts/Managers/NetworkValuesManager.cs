@@ -1,8 +1,9 @@
+using Components.BaseComponents;
 using Cysharp.Threading.Tasks;
 
 namespace Managers
 {
-    public class NetworkValuesManager : BaseManager<CharactersManager>
+    public class NetworkValuesManager : InitializableBaseNetworkBehaviour
     {
         protected override async UniTask Initialize()
         {
