@@ -53,10 +53,16 @@ namespace Managers
             await UniTask.WaitUntil(() => ScreenManager.Instance != null &&
                                           ScreenManager.Instance.IsInitialized);
 
+            await UniTask.WaitUntil(() => NetworkValuesManager.Instance != null &&
+                                          NetworkValuesManager.Instance.IsInitialized);
+
+            var playerScreenPosition = new Vector3(
+                NetworkValuesManager.Instance.ConnectedPlayers.Count * Screen.width / 4, 0, 0);
+            var playerWorldPosition = ScreenManager.Instance.GetWorldPosition(playerScreenPosition);
             // TODO: LoadPlayerModel
             PlayerModel = new PlayerModel
             {
-                Position = FishmanWorldPosition.ToSystemNumeric()
+                Position = playerWorldPosition.ToSystemNumeric(),
             };
 
             IsInitialized = true;
@@ -183,6 +189,8 @@ namespace Managers
                 PlayerViewInstances.Add(playerView);
                 PlayerViewInstance = playerView;
             }
+            // playerView.gameObject.name = $"{playerView.gameObject.name}_{ownerClientId}_local";
+            // playerView.gameObject.transform.position = PlayerModel.Position.ToUnity();
         }
         public void HandlePlayerViewUnRegistered(PlayerView playerView, ulong ownerClientId)
         {
