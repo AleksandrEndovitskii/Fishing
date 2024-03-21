@@ -8,7 +8,6 @@ using Helpers;
 using Newtonsoft.Json;
 using Unity.Netcode;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Managers
 {
