@@ -50,6 +50,9 @@ namespace Managers
 
         protected override async UniTask Initialize()
         {
+            await UniTask.WaitUntil(() => ScreenManager.Instance != null &&
+                                          ScreenManager.Instance.IsInitialized);
+
             // TODO: LoadPlayerModel
             PlayerModel = new PlayerModel
             {
