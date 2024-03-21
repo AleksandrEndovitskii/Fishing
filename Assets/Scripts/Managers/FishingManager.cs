@@ -22,11 +22,6 @@ namespace Managers
     public class FishingManager : BaseManager<FishingManager>
     {
         [SerializeField]
-        private PlayerView _playerViewPrefab;
-        private PlayerView _playerInstance;
-        private Vector3 _fishmanScreenPosition = new Vector3(Screen.width / 2, 0, 0);
-
-        [SerializeField]
         private BaitView _baitPrefab;
         private BaitView _baitInstance;
         public bool IsBaitActive => _baitInstance != null;
@@ -166,7 +161,6 @@ namespace Managers
                                           ScreenManager.Instance.IsInitialized);
 
             RespawnFishes();
-            RespawnFisherman();
 
             _lineDrawingComponent = FindFirstObjectByType<LineDrawingComponent>();
 
@@ -269,32 +263,9 @@ namespace Managers
             return result;
         }
 
-        private void RespawnFisherman()
-        {
-            DespawnFisherman();
-            SpawnFisherman();
-        }
-        private void SpawnFisherman()
-        {
-            var fishmanWorldPosition = ScreenManager.Instance.GetWorldPosition(_fishmanScreenPosition);
-            _playerInstance = Instantiate(_playerViewPrefab, fishmanWorldPosition, Quaternion.identity, this.gameObject.transform);
-        }
-        private bool DespawnFisherman()
-        {
-            if (_playerInstance == null)
-            {
-                return false;
-            }
-
-            Destroy(_playerInstance.gameObject);
-            _playerInstance = null;
-
-            return true;
-        }
-
         private void SpawnBait()
         {
-            _lineDrawingComponent.DrawLine(_fishmanScreenPosition, Input.mousePosition);
+            _lineDrawingComponent.DrawLine(CharactersManager.Instance.PlayerInstance.transform.position, Input.mousePosition);
 
             var mouseWorldPosition = ScreenManager.Instance.GetWorldPosition(Input.mousePosition);
             _baitInstance = Instantiate(_baitPrefab, mouseWorldPosition, Quaternion.identity, this.gameObject.transform);
