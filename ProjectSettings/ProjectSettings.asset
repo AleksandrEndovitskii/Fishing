@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: AleksandrEndovitskii
   productName: Fishing
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -160,7 +160,9 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   androidMinAspectRatio: 1
   applicationIdentifier:
-    Standalone: com.DefaultCompany.Fishing
+    Android: com.AleksandrEndovitskii.Fishing
+    Standalone: com.AleksandrEndovitskii.Fishing
+    iPhone: com.AleksandrEndovitskii.Fishing
   buildNumber:
     Bratwurst: 0
     Standalone: 0
