@@ -265,6 +265,17 @@ namespace Managers
 
         private void SpawnBait()
         {
+            if (!IsInitialized)
+            {
+                if (Debug.isDebugBuild)
+                {
+                    Debug.LogWarning($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
+                                     $"\n{nameof(IsInitialized)} == {IsInitialized}");
+                }
+
+                return;
+            }
+
             // TODO: not sure in this implementation
             _lineDrawingComponent = CharactersManager.Instance.PlayerViewInstance.GetComponent<LineDrawingComponent>();
 
