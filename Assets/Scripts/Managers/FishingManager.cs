@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Components;
 using Cysharp.Threading.Tasks;
@@ -22,8 +22,8 @@ namespace Managers
     public class FishingManager : BaseManager<FishingManager>
     {
         [SerializeField]
-        private FishermanView _fishermanViewPrefab;
-        private FishermanView _fishermanInstance;
+        private PlayerView _playerViewPrefab;
+        private PlayerView _playerInstance;
         private Vector3 _fishmanScreenPosition = new Vector3(Screen.width / 2, 0, 0);
 
         [SerializeField]
@@ -277,17 +277,17 @@ namespace Managers
         private void SpawnFisherman()
         {
             var fishmanWorldPosition = ScreenManager.Instance.GetWorldPosition(_fishmanScreenPosition);
-            _fishermanInstance = Instantiate(_fishermanViewPrefab, fishmanWorldPosition, Quaternion.identity, this.gameObject.transform);
+            _playerInstance = Instantiate(_playerViewPrefab, fishmanWorldPosition, Quaternion.identity, this.gameObject.transform);
         }
         private bool DespawnFisherman()
         {
-            if (_fishermanInstance == null)
+            if (_playerInstance == null)
             {
                 return false;
             }
 
-            Destroy(_fishermanInstance.gameObject);
-            _fishermanInstance = null;
+            Destroy(_playerInstance.gameObject);
+            _playerInstance = null;
 
             return true;
         }
