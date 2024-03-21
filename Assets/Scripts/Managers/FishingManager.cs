@@ -277,6 +277,18 @@ namespace Managers
             }
 
             // TODO: not sure in this implementation
+            if (CharactersManager.Instance == null ||
+                CharactersManager.Instance.PlayerViewInstance == null)
+            {
+                if (Debug.isDebugBuild)
+                {
+                    Debug.LogWarning($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
+                                     $"\n{nameof(CharactersManager.Instance)} == {CharactersManager.Instance}" +
+                                     $"\n{nameof(CharactersManager.Instance.PlayerViewInstance)} == {CharactersManager.Instance?.PlayerViewInstance}");
+                }
+
+                return;
+            }
             _lineDrawingComponent = CharactersManager.Instance.PlayerViewInstance.GetComponent<LineDrawingComponent>();
 
             var playerViewInstanceScreenPosition = ScreenManager.Instance.GetScreenPosition(CharactersManager.Instance.PlayerViewInstance.transform.position);
