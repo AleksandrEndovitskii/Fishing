@@ -56,5 +56,11 @@ namespace Managers
 
             return worldPosition;
         }
+        public Vector3 GetScreenPosition(Vector3 worldPosition)
+        {
+            var position = _mainCamera.WorldToScreenPoint(worldPosition);
+
+            return position;
+        }
     }
 }

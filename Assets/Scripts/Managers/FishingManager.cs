@@ -159,10 +159,10 @@ namespace Managers
 
             await UniTask.WaitUntil(() => ScreenManager.Instance != null &&
                                           ScreenManager.Instance.IsInitialized);
+            await UniTask.WaitUntil(() => CharactersManager.Instance != null &&
+                                          CharactersManager.Instance.IsInitialized);
 
             RespawnFishes();
-
-            _lineDrawingComponent = FindFirstObjectByType<LineDrawingComponent>();
 
             IsInitialized = true;
         }
@@ -265,7 +265,11 @@ namespace Managers
 
         private void SpawnBait()
         {
-            _lineDrawingComponent.DrawLine(CharactersManager.Instance.PlayerViewInstance.transform.position, Input.mousePosition);
+            // TODO: not sure in this implementation
+            _lineDrawingComponent = CharactersManager.Instance.PlayerViewInstance.GetComponent<LineDrawingComponent>();
+
+            var playerViewInstanceScreenPosition = ScreenManager.Instance.GetScreenPosition(CharactersManager.Instance.PlayerViewInstance.transform.position);
+            _lineDrawingComponent.DrawLine(playerViewInstanceScreenPosition, Input.mousePosition);
 
             var mouseWorldPosition = ScreenManager.Instance.GetWorldPosition(Input.mousePosition);
             _baitInstance = Instantiate(_baitPrefab, mouseWorldPosition, Quaternion.identity, this.gameObject.transform);
