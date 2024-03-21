@@ -1,10 +1,12 @@
 ﻿using System;
+using Components.BaseComponents;
+using Cysharp.Threading.Tasks;
 using Models;
 using UnityEngine;
 
 namespace Views
 {
-    public class BaseView<T> : MonoBehaviour, IView<T> where T : IModel
+    public class BaseView<T> : InitializableBaseMonoBehaviour, IView<T> where T : IModel
     {
         public event Action<T> ModelChanged = delegate { };
         public T Model
@@ -30,6 +32,22 @@ namespace Views
             }
         }
         private T _model;
+
+        protected override async UniTask Initialize()
+        {
+        }
+
+        protected override async UniTask UnInitialize()
+        {
+        }
+
+        protected override async UniTask Subscribe()
+        {
+        }
+
+        protected override async UniTask UnSubscribe()
+        {
+        }
 
         protected virtual void Redraw(T model)
         {
