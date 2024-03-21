@@ -1,37 +1,10 @@
-using System;
-using Cysharp.Threading.Tasks;
-using Helpers;
-using UnityEngine;
+using Components.BaseComponents;
 
 namespace Managers
 {
-    public abstract class BaseManager<T> : MonoBehaviour where T : MonoBehaviour
+    public abstract class BaseManager<T> : InitializableBaseMonoBehaviour where T : InitializableBaseMonoBehaviour
     {
         public static T Instance { get; private set; }
-
-        public event Action<bool> IsInitializedChanged = delegate { };
-        public bool IsInitialized
-        {
-            get => _isInitialized;
-            set
-            {
-                if (_isInitialized == value)
-                {
-                    return;
-                }
-
-                if (Debug.isDebugBuild)
-                {
-                    Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
-                              $"\n{_isInitialized} -> {value}");
-                }
-
-                _isInitialized = value;
-
-                IsInitializedChanged?.Invoke(_isInitialized);
-            }
-        }
-        private bool _isInitialized;
 
         private async void Awake()
         {
@@ -58,11 +31,5 @@ namespace Managers
 
             await UnInitialize();
         }
-
-        protected abstract UniTask Initialize();
-        protected abstract UniTask UnInitialize();
-
-        protected abstract UniTask Subscribe();
-        protected abstract UniTask UnSubscribe();
     }
 }
