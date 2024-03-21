@@ -37,11 +37,11 @@ namespace Managers
         private string _joinCode;
 
         // copy/paste from NetworkManagerRelayIntegration.cs
-#if UNITY_WEBGL
+//#if UNITY_WEBGL
         private const string CONNECTION_TYPE = "wss";
-#else
-        private const string CONNECTION_TYPE = "dtls";
-#endif
+// #else
+//         private const string CONNECTION_TYPE = "dtls";
+// #endif
 
         protected override async UniTask Initialize()
         {
@@ -78,7 +78,7 @@ namespace Managers
                 var allocation = await RelayService.Instance.CreateAllocationAsync(maxConnectionsCount);
                 JoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
-                var relayServerData = new RelayServerData(allocation, "wss");//new RelayServerData(allocation, CONNECTION_TYPE);
+                var relayServerData = new RelayServerData(allocation, CONNECTION_TYPE);
                 NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
                 NetworkManager.Singleton.StartHost();
