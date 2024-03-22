@@ -181,7 +181,7 @@ namespace Managers
             }
             catch (LobbyServiceException lobbyServiceException)
             {
-                Debug.LogError($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
+                Debug.LogError($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Failed" +
                                          $"\n{nameof(lobbyServiceException)}.{nameof(lobbyServiceException.Reason)} == {lobbyServiceException.Reason}");
 
                 throw;
@@ -332,7 +332,7 @@ namespace Managers
             if (lobbyIds == null ||
                 lobbyIds.Length == 0)
             {
-                Debug.LogWarning($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
+                Debug.LogWarning($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
                                            $"\n{nameof(lobbyIds)} = {lobbyIds}");
 
                 return;
@@ -348,7 +348,7 @@ namespace Managers
             }
             catch (LobbyServiceException lobbyServiceException)
             {
-                Debug.LogError($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
+                Debug.LogError($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Failed" +
                                          $"\n{nameof(lobbyServiceException)}.{nameof(lobbyServiceException.Reason)} = {lobbyServiceException.Reason}");
 
                 return;
@@ -410,7 +410,7 @@ namespace Managers
 
             if (CurrentLobby == null) // !IsInLobby
             {
-                Debug.LogWarning($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
+                Debug.LogWarning($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
                                            $"\n{nameof(IsInLobby)} = {IsInLobby}");
 
                 return;

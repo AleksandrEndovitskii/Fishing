@@ -56,14 +56,14 @@ namespace Managers
             await UniTask.WaitUntil(() => NetworkValuesManager.Instance != null &&
                                           NetworkValuesManager.Instance.IsInitialized);
 
-            var playerScreenPosition = new Vector3(
-                NetworkValuesManager.Instance.ConnectedPlayers.Count * Screen.width / 4, 0, 0);
-            var playerWorldPosition = ScreenManager.Instance.GetWorldPosition(playerScreenPosition);
-            // TODO: LoadPlayerModel
-            PlayerModel = new PlayerModel
-            {
-                Position = playerWorldPosition.ToSystemNumeric(),
-            };
+            // var playerScreenPosition = new Vector3(
+            //     NetworkValuesManager.Instance.ConnectedPlayers.Count * Screen.width / 4, 0, 0);
+            // var playerWorldPosition = ScreenManager.Instance.GetWorldPosition(playerScreenPosition);
+            // // TODO: LoadPlayerModel
+            // PlayerModel = new PlayerModel
+            // {
+            //     Position = playerWorldPosition.ToSystemNumeric(),
+            // };
 
             IsInitialized = true;
         }
@@ -130,13 +130,13 @@ namespace Managers
 
         private async void InstantiatePlayerViewForConnectedPlayer(NetworkValuesManager connectedPlayer)
         {
-            Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
+            Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Started" +
                                 $"\n{nameof(connectedPlayer.OwnerClientId)} == {connectedPlayer.OwnerClientId}");
 
             var isMyNetworkValuesManager = connectedPlayer.OwnerClientId == NetworkValuesManager.Instance.OwnerClientId;
             if (!isMyNetworkValuesManager)
             {
-                Debug.Log($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
+                Debug.LogWarning($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
                                            $"\n{nameof(isMyNetworkValuesManager)} == {isMyNetworkValuesManager}");
 
                 return;
@@ -145,13 +145,16 @@ namespace Managers
             var isPlayerInstantiated = playerViewInstance != null;
             if (isPlayerInstantiated)
             {
-                Debug.Log($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
+                Debug.LogWarning($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
                                            $"\n{nameof(isPlayerInstantiated)} == {isPlayerInstantiated}");
 
                 return;
             }
 
             NetworkValuesManager.Instance.RegisterInNetworking_ServerRpc();
+
+            Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Completed" +
+                      $"\n{nameof(connectedPlayer.OwnerClientId)} == {connectedPlayer.OwnerClientId}");
         }
         private void DestroyPlayerViewOfDisconnectedPlayer(NetworkValuesManager disconnectedPlayer)
         {
@@ -182,13 +185,24 @@ namespace Managers
             Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
                                 $"\n{nameof(ownerClientId)} == {ownerClientId}");
 
+            var playerScreenPosition = new Vector3(
+                NetworkValuesManager.Instance.ConnectedPlayers.Count * Screen.width / 4, 0, 0);
+            var playerWorldPosition = ScreenManager.Instance.GetWorldPosition(playerScreenPosition);
+            var playerModel = new PlayerModel
+            {
+                OwnerClientId = ownerClientId,
+                Position = playerWorldPosition.ToSystemNumeric(),
+            };
+            playerView.Model = playerModel;
+
             var isMyCharacter = NetworkValuesManager.Instance.OwnerClientId == ownerClientId;
             if (isMyCharacter)
             {
-                playerView.Model = PlayerModel;
-                PlayerViewInstances.Add(playerView);
+                PlayerModel = playerModel;
                 PlayerViewInstance = playerView;
             }
+            PlayerViewInstances.Add(playerView);
+            // TODO: LoadPlayerModel
             // playerView.gameObject.name = $"{playerView.gameObject.name}_{ownerClientId}_local";
             // playerView.gameObject.transform.position = PlayerModel.Position.ToUnity();
         }
