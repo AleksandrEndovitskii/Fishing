@@ -1,11 +1,13 @@
 using System;
+using Extensions;
 using Helpers;
+using Unity.Netcode;
 using UnityEngine;
 using Vector3 = System.Numerics.Vector3;
 
 namespace Models
 {
-    public class PlayerModel : IModel
+    public class PlayerModel : IModel, INetworkSerializable
     {
         public event Action<ulong> OwnerClientIdChanged = delegate { };
         public ulong OwnerClientId
@@ -54,5 +56,14 @@ namespace Models
             }
         }
         private Vector3 _position;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            var ownerClientIdValue = OwnerClientId;
+            serializer.SerializeValue(ref ownerClientIdValue);
+
+            var positionValue = Position.ToUnity();
+            serializer.SerializeValue(ref positionValue);
+        }
     }
 }

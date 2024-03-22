@@ -186,6 +186,7 @@ namespace Managers
                                 $"\n{nameof(Instance.OwnerClientId)} == {Instance.OwnerClientId}");
 
             var playerView = CharactersManager.Instance.InstantiatePlayer(serverRpcParams.Receive.SenderClientId);
+            playerView.gameObject.transform.position = new Vector3(10, 10, 10);
         }
 
         public void UnRegisterInNetworking(MonoBehaviour monoBehaviour)
@@ -272,20 +273,24 @@ namespace Managers
 
             this.InvokeActionAfterDelay(() =>
             {
-                Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}" +
+                Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Started" +
                                     $"\n{nameof(networkValuesManager.OwnerClientId)} == {networkValuesManager.OwnerClientId}");
 
                 var isPlayerRegistered = IsPlayerRegistered(networkValuesManager);
                 if (isPlayerRegistered)
                 {
                     Debug.LogWarning($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
-                                        $"\n{nameof(isPlayerRegistered)} == {isPlayerRegistered}");
+                                     $"\n{nameof(isPlayerRegistered)} == {isPlayerRegistered}" +
+                                     $"\n{nameof(networkValuesManager.OwnerClientId)} == {networkValuesManager.OwnerClientId}");
 
                     return;
                 }
 
                 Instance.ConnectedPlayers.Add(networkValuesManager);
                 Instance.PlayerConnected.Invoke(networkValuesManager);
+
+                Debug.Log($"{this.GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Completed" +
+                          $"\n{nameof(networkValuesManager.OwnerClientId)} == {networkValuesManager.OwnerClientId}");
             }, 1f);
         }
         private void UnRegisterPlayer(NetworkValuesManager networkValuesManager)
@@ -302,7 +307,8 @@ namespace Managers
             if (!isPlayerRegistered)
             {
                 Debug.LogWarning($"{GetType().Name}.{ReflectionHelper.GetCallerMemberName()}_Aborted" +
-                                           $"\n{nameof(isPlayerRegistered)} == {isPlayerRegistered}");
+                                 $"\n{nameof(isPlayerRegistered)} == {isPlayerRegistered}" +
+                                 $"\n{nameof(networkValuesManager.OwnerClientId)} == {networkValuesManager.OwnerClientId}");
 
                 return;
             }
