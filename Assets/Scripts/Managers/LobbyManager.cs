@@ -176,7 +176,7 @@ namespace Managers
                     }
                 };
                 // await UniTask.Delay(LOBBIES_REQUEST_COOLDOWN_MILLISECONDS_COUNT);
-                var queryResponse = await Lobbies.Instance.QueryLobbiesAsync(queryLobbiesOptions);
+                var queryResponse = await LobbyService.Instance.QueryLobbiesAsync(queryLobbiesOptions);
                 lobbies = queryResponse.Results;
             }
             catch (LobbyServiceException lobbyServiceException)
@@ -442,7 +442,7 @@ namespace Managers
                         },
                     }
                 };
-                var lobby = await Lobbies.Instance.UpdateLobbyAsync(CurrentLobby.Id, updateLobbyOptions);
+                var lobby = await LobbyService.Instance.UpdateLobbyAsync(CurrentLobby.Id, updateLobbyOptions);
 
                 CurrentLobby = lobby;
             }
