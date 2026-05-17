@@ -78,7 +78,7 @@ namespace Managers
                 var allocation = await RelayService.Instance.CreateAllocationAsync(maxConnectionsCount);
                 JoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
-                var relayServerData = new RelayServerData(allocation, CONNECTION_TYPE);
+                var relayServerData = new RelayServerData();//allocation, CONNECTION_TYPE);
                 NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
                 NetworkManager.Singleton.StartHost();
@@ -99,7 +99,7 @@ namespace Managers
             {
                 var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
 
-                var relayServerData = new RelayServerData(joinAllocation, CONNECTION_TYPE);
+                var relayServerData = new RelayServerData();//joinAllocation, CONNECTION_TYPE);
                 NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
                 NetworkManager.Singleton.StartClient();
